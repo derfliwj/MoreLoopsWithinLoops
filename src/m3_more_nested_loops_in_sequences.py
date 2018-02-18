@@ -3,21 +3,21 @@ This project demonstrates NESTED LOOPS (i.e., loops within loops)
 in the context of SEQUENCES OF SUB-SEQUENCES.
 
 Authors: David Mutchler, Valerie Galluzzi, Mark Hays, Amanda Stouder,
-         their colleagues and PUT_YOUR_NAME_HERE.
-"""  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+         their colleagues and Wesley Derflinger.
+"""  # DONE: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 
 def main():
     """ Calls the other functions to test them. """
-    run_test_largest_number()
-    run_test_largest_negative_number()
+    # run_test_largest_number()
+    # run_test_largest_negative_number()
     run_test_first_is_elsewhere_too()
 
 
 def run_test_largest_number():
     """ Tests the    largest_number    function. """
     # ------------------------------------------------------------------
-    # TODO: 2. Implement this TEST function.
+    # DONE: 2. Implement this TEST function.
     #   It TESTS the  largest_number  function defined below.
     #   Include at least ** 1 ** ADDITIONAL test beyond those we wrote.
     # ------------------------------------------------------------------
@@ -44,6 +44,12 @@ def run_test_largest_number():
     print('Expected and actual are:', expected, answer)
 
     # TO DO 2 (continued): Add your ADDITIONAL test(s) here:
+
+    # Test 4:
+    expected = 345
+    answer = largest_number([(44, 121, 4, 12, 52, 34),
+                             [-3, 80, 102, 345], (67, 41, -10)])
+    print('Expected and actual are:', expected, answer)
 
 
 def largest_number(seq_seq):
@@ -72,15 +78,25 @@ def largest_number(seq_seq):
     where each subsequence contains only numbers.
     """
     # ------------------------------------------------------------------
-    # TODO: 3. Implement and test this function.
+    # DONE: 3. Implement and test this function.
     #   Note that you should write its TEST function first (above).
     # ------------------------------------------------------------------
+
+    v = None
+    for k in range(len(seq_seq)):
+        sublist = seq_seq[k]
+        for j in range(len(sublist)):
+            if v is None:
+                v = sublist[j]
+            if sublist[j] > v:
+                v = sublist[j]
+    return v
 
 
 def run_test_largest_negative_number():
     """ Tests the    largest_negative_number    function. """
     # ------------------------------------------------------------------
-    # TODO: 4. Implement this TEST function.
+    # DONE: 4. Implement this TEST function.
     #   It TESTS the  largest_negative_number  function defined below.
     #
     #   Include enough tests to give you confidence that your solution
@@ -90,6 +106,21 @@ def run_test_largest_negative_number():
     print('-------------------------------------------------')
     print('Testing the   LARGEST_NEGATIVE_NUMBER   function:')
     print('-------------------------------------------------')
+
+    # Test 1:
+    expected = -5
+    answer = largest_negative_number([(40, -8, -5, 22), (-22, 10, 35, -14, 1), [56, -30, 15]])
+    print('Expected and actual are:', expected, answer)
+
+    # Test 2:
+    expected = -11
+    answer = largest_negative_number(([5, 98, -20], [-90, 35, 11, -11], [0, 8, -13, 61]))
+    print('Expected and actual are:', expected, answer)
+
+    # Test 3:
+    expected = None
+    answer = largest_negative_number(([], [], []))
+    print('Expected and actual are:', expected, answer)
 
 
 def largest_negative_number(seq_seq):
@@ -115,13 +146,24 @@ def largest_negative_number(seq_seq):
     where each subsequence contains only numbers.
     """
     # ------------------------------------------------------------------
-    # TODO: 5. Implement and test this function.
+    # DONE: 5. Implement and test this function.
     #   Note that you should write its TEST function first (above).
     #
     # CHALLENGE: Try to solve this problem with no additional sequences
     #   being constructed (so the SPACE allowed is limited to the
     #   give sequence of sequences plus any non-list variables you want).
     # ------------------------------------------------------------------
+
+    v = None
+    for k in range(len(seq_seq)):
+        sublist = seq_seq[k]
+        for j in range(len(sublist)):
+            if sublist[j] < 0:
+                if v is None:
+                    v = sublist[j]
+                elif sublist[j] > v:
+                    v = sublist[j]
+    return v
 
 
 def run_test_first_is_elsewhere_too():
@@ -201,21 +243,21 @@ def run_test_first_is_elsewhere_too():
 
     # Test 8:
     expected = True
-    answer = first_is_elsewhere_too([('a'), (), (), (), ('a')])
+    answer = first_is_elsewhere_too(['a', (), (), (), 'a'])
     print('Expected and actual are:', expected, answer)
     print(message[answer == expected])
     no_failures = no_failures and (answer == expected)
 
     # Test 9:
     expected = True
-    answer = first_is_elsewhere_too([('a'), (), (), (), ('a'), ()])
+    answer = first_is_elsewhere_too(['a', (), (), (), 'a', ()])
     print('Expected and actual are:', expected, answer)
     print(message[answer == expected])
     no_failures = no_failures and (answer == expected)
 
     # Test 10:
     expected = False
-    answer = first_is_elsewhere_too([('a'), (), (), (), ('b'), ()])
+    answer = first_is_elsewhere_too(['a', (), (), (), 'b', ()])
     print('Expected and actual are:', expected, answer)
     print(message[answer == expected])
     no_failures = no_failures and (answer == expected)
@@ -355,7 +397,7 @@ def first_is_elsewhere_too(seq_seq):
     and the given argument is a sequence of sequences.
     """
     # ------------------------------------------------------------------
-    # TODO: 6. Implement and test this function.
+    # DONE: 6. Implement and test this function.
     #          Some tests are already written for you (above).
     #
     # IMPLEMENTATION RESTRICTION:
@@ -370,6 +412,17 @@ def first_is_elsewhere_too(seq_seq):
     #   in this problem, as doing so would defeat the goal of providing
     #   practice at loops within loops (within loops within ...)
     # ------------------------------------------------------------------
+
+    if seq_seq[0] is None:
+        return False
+    for k in range(1, len(seq_seq)):
+        first_list = seq_seq[0]
+        sublist = seq_seq[k]
+        for j in range(len(first_list)):
+            for m in range(len(sublist)):
+                if first_list[j] == sublist[m]:
+                    return True
+    return False
 
 
 # ----------------------------------------------------------------------
